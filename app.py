@@ -2,9 +2,10 @@ from flask import Flask, render_template
 import sqlite3
 
 app = Flask(__name__)
+
 @app.route("/")
 def index():
-    return "Helló, ez itt a NETFIT webszerver!"
+    return render_template("index.html")
 
 
 
