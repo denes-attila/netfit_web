@@ -42,5 +42,22 @@ def tanulo(nev):
     conn.close()
     return render_template("tanulo.html", tanulo_adatok = tanulo_adatok)
 
+@app.route("/atlagok")
+def atlagok():
+    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT nem, AVG(fekvotamasz)
+    FROM meresek
+    GROUP BY nem
+    """)
+    fekvotamasz_atlagok  = [dict(sor) for sor in cursor.fetchall()]
+    conn.close()
+
+    return render_template("atlagok.html", fekvotamasz_atlagok = fekvotamasz_atlagok)
+
+
+
 if __name__ == "__main__":
     app.run(debug = True)
