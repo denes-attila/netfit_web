@@ -1,0 +1,19 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Tanuló adatai</title>
+</head>
+<body>
+    <li>
+        <ul>
+            {% for adat in tanulo_adatok %}
+                {% for kulcs, ertek in adat.items() %}
+                <li>{{kulcs}} : {{ ertek }}</li>
+                {% endfor %}
+            {% endfor %}
+        </ul>
+    </li>
+</body>
+</html>
