@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mérés átlag</title>
+</head>
+<body>
+    <ul>
+        {% for meres in meres_atlagok %}
+            <li>{{ meres["nem"] }} : {{ meres["atlag"] }}</li>
+        {% endfor %}
+    </ul>
+    
+</body>
+</html>

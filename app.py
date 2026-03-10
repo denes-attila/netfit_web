@@ -57,6 +57,35 @@ def atlagok():
 
     return render_template("atlagok.html", fekvotamasz_atlagok = fekvotamasz_atlagok)
 
+@app.route("/atlagok/<meres>")
+
+
+def ossze_atlag(meres):
+    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+
+
+    meresek = ["suly", "magassag", "testzsir", "tavolugrás", "ingafutas",
+           "fekvotamasz", "hajlekonysag", "szoritoeró", "torzsemeles"]
+    
+
+    if meres not in meresek:
+        return "Érvénytelen mérés!", 400
+    query = (f"""
+    SELECT nem, AVG({meres}) as atlag
+    FROM meresek
+    WHERE datum = '2025-03-01'
+    GROUP BY nem
+    """)
+    print(query)
+
+
+    cursor.execute(query)
+
+    meres_atlagok = [dict(sor) for sor in cursor.fetchall()]
+    conn.close()
+    return render_template("meres.html", meres_atlagok = meres_atlagok)
 
 
 if __name__ == "__main__":
