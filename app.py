@@ -1,4 +1,4 @@
-from flask import Flask, render_template, jsonify
+from flask import Flask, render_template, jsonify, request
 import sqlite3
 
 app = Flask(__name__)
@@ -120,6 +120,29 @@ def tanulo_api(nev):
     tanulo_adatok = [dict(sor) for sor in cursor.fetchall()]
     tanulo_adatok = jsonify(tanulo_adatok)
     return(tanulo_adatok)
+
+@app.route("/api/atlag/<meres>", methods=['POST'] )
+def meres_atlag_api(meres):
+    conn = sqlite3.connect('../netfit_proc/netfit.db')
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    meresek = ["suly", "magassag", "testzsir", "tavolugrás", "ingafutas",
+           "fekvotamasz", "hajlekonysag", "szoritoeró", "torzsemeles"]
+    adat = request.get_json()
+    nem = adat["nem"]
+
+    if meres not in meresek:
+        return "Érvénytelen mérés!", 400
+    cursor.execute(f"""
+    SELECT nem, AVG({meres}) as atlag
+    FROM meresek
+    WHERE nem = ?
+    
+    """, (nem,))
+
+    meres_atlagok = [dict(sor) for sor in cursor.fetchall()]
+    conn.close()
+    return jsonify(meres_atlagok)
 
 if __name__ == "__main__":
     app.run(debug = True)
