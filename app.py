@@ -105,5 +105,21 @@ def tanulok_api():
     nevek = jsonify(nevek)
     return(nevek)
 
+@app.route('/api/tanulo/<nev>')
+def tanulo_api(nev):
+    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    conn.row_factory =sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT *
+    FROM meresek
+    WHERE nev = ?
+
+    """, (nev,))
+
+    tanulo_adatok = [dict(sor) for sor in cursor.fetchall()]
+    tanulo_adatok = jsonify(tanulo_adatok)
+    return(tanulo_adatok)
+
 if __name__ == "__main__":
     app.run(debug = True)
