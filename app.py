@@ -1,4 +1,4 @@
-from flask import Flask, render_template
+from flask import Flask, render_template, jsonify
 import sqlite3
 
 app = Flask(__name__)
@@ -91,6 +91,19 @@ def osszes_atlag(meres):
     conn.close()
     return render_template("meres.html", meres_atlagok = meres_atlagok, meresek = meresek)
 
+@app.route('/api/tanulok')
+def tanulok_api():
+    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    conn.row_factory = sqlite3.Row
+    cursor = conn.cursor()
+    cursor.execute("""
+    SELECT DISTINCT nev
+    FROM meresek
+    """)
+    nevek = [dict(sor) for sor in cursor.fetchall()]
+    conn.close()
+    nevek = jsonify(nevek)
+    return(nevek)
 
 if __name__ == "__main__":
     app.run(debug = True)
