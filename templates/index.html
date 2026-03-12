@@ -11,6 +11,10 @@
     <p>
         <a href="{{url_for('atlagok')}}">Fekvőtámasz átlagok</a>
     </p>
+    <p>{% for meres in meresek  %}
+        <a href="{{url_for('osszes_atlag', meres = meres)}}">{{ meres }}</a>
+        {% endfor %}
+    </p>
     
 </body>
 </html>

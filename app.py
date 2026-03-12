@@ -5,7 +5,9 @@ app = Flask(__name__)
 
 @app.route("/")
 def index():
-    return render_template("index.html")
+    meresek = ["suly", "magassag", "testzsir", "tavolugrás", "ingafutas",
+           "fekvotamasz", "hajlekonysag", "szoritoeró", "torzsemeles"]
+    return render_template("index.html", meresek = meresek)
 
 
 
@@ -60,7 +62,7 @@ def atlagok():
 @app.route("/atlagok/<meres>")
 
 
-def ossze_atlag(meres):
+def osszes_atlag(meres):
     conn = sqlite3.connect("../netfit_proc/netfit.db")
     conn.row_factory = sqlite3.Row
     cursor = conn.cursor()
@@ -85,7 +87,7 @@ def ossze_atlag(meres):
 
     meres_atlagok = [dict(sor) for sor in cursor.fetchall()]
     conn.close()
-    return render_template("meres.html", meres_atlagok = meres_atlagok)
+    return render_template("meres.html", meres_atlagok = meres_atlagok, meresek = meresek)
 
 
 if __name__ == "__main__":
