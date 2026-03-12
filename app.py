@@ -41,8 +41,10 @@ def tanulo(nev):
     """, (nev,))
 
     tanulo_adatok = [dict(sor) for sor in cursor.fetchall()]
+    elso = [ sor for sor in tanulo_adatok if sor["datum"] == '2025-03-01']
+    masodik = [ sor for sor in tanulo_adatok if sor["datum"] == '2026-03-01']
     conn.close()
-    return render_template("tanulo.html", tanulo_adatok = tanulo_adatok)
+    return render_template("tanulo.html", elso = elso, masodik = masodik) 
 
 @app.route("/atlagok")
 def atlagok():

@@ -6,11 +6,14 @@
     <title>Mérés átlag</title>
 </head>
 <body>
-    <ul>
-        {% for meres in meres_atlagok %}
+    <li>
+
+        <ul>
+            {% for meres in meres_atlagok %}
             <li>{{ meres["nem"] }} : {{ meres["atlag"] }}</li>
-        {% endfor %}
-    </ul>
+            {% endfor %}
+        </ul>
+    </li>
     
 </body>
 </html>

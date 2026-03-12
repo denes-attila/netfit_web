@@ -6,14 +6,29 @@
     <title>Tanuló adatai</title>
 </head>
 <body>
-    <li>
-        <ul>
-            {% for adat in tanulo_adatok %}
-                {% for kulcs, ertek in adat.items() %}
-                <li>{{kulcs}} : {{ ertek }}</li>
+    <p>
+        <h3>Első mérés</h3>
+        <li>
+            <ul>
+                {% for adat in elso %}
+                    {% for kulcs, ertek in adat.items() %}
+                    <li>{{kulcs}} : {{ ertek }}</li>
+                    {% endfor %}
                 {% endfor %}
-            {% endfor %}
-        </ul>
-    </li>
+            </ul>
+        </li>
+    </p>
+    <p>
+        <h3>Második mérés</h3>
+        <li>
+            <ul>
+                {% for adat in masodik %}
+                    {% for kulcs, ertek in adat.items() %}
+                    <li>{{kulcs}} : {{ ertek }}</li>
+                    {% endfor %}
+                {% endfor %}
+            </ul>
+        </li>
+    </p>
 </body>
 </html>
