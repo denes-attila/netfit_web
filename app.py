@@ -9,11 +9,15 @@ def index():
            "fekvotamasz", "hajlekonysag", "szoritoeró", "torzsemeles"]
     return render_template("index.html", meresek = meresek)
 
+def get_db():
+    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    conn.row_factory = sqlite3.Row
+    return conn
 
 
 @app.route("/tanulok")
 def tanulok():
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
         SELECT DISTINCT nev
@@ -30,8 +34,7 @@ def tanulok():
 
 @app.route("/tanulo/<nev>")
 def tanulo(nev):
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
         SELECT * 
@@ -48,8 +51,7 @@ def tanulo(nev):
 
 @app.route("/atlagok")
 def atlagok():
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
     SELECT nem, AVG(fekvotamasz)
@@ -65,8 +67,7 @@ def atlagok():
 
 
 def osszes_atlag(meres):
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_db()
     cursor = conn.cursor()
 
 
@@ -93,8 +94,7 @@ def osszes_atlag(meres):
 
 @app.route('/api/tanulok')
 def tanulok_api():
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
-    conn.row_factory = sqlite3.Row
+    conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
     SELECT DISTINCT nev
@@ -107,8 +107,7 @@ def tanulok_api():
 
 @app.route('/api/tanulo/<nev>')
 def tanulo_api(nev):
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
-    conn.row_factory =sqlite3.Row
+    conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
     SELECT *
@@ -123,8 +122,7 @@ def tanulo_api(nev):
 
 @app.route("/api/atlag/<meres>", methods=['POST'] )
 def meres_atlag_api(meres):
-    conn = sqlite3.connect('../netfit_proc/netfit.db')
-    conn.row_factory = sqlite3.Row
+    conn = get_db()
     cursor = conn.cursor()
     meresek = ["suly", "magassag", "testzsir", "tavolugrás", "ingafutas",
            "fekvotamasz", "hajlekonysag", "szoritoeró", "torzsemeles"]
