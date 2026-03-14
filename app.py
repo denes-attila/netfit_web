@@ -92,18 +92,47 @@ def osszes_atlag(meres):
     conn.close()
     return render_template("meres.html", meres_atlagok = meres_atlagok, meresek = meresek)
 
-@app.route('/api/tanulok')
+@app.route('/api/tanulok', methods = ['GET', 'POST'])
 def tanulok_api():
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-    SELECT DISTINCT nev
-    FROM meresek
-    """)
-    nevek = [dict(sor) for sor in cursor.fetchall()]
-    conn.close()
-    nevek = jsonify(nevek)
-    return(nevek)
+    if request.method == 'POST':
+        conn = get_db()
+        cursor = conn.cursor()
+        adat = request.get_json()
+        nev = adat["nev"]
+        nem = adat["nem"]
+        kor = adat["kor"]
+        sportolo = adat["sportolo"]
+        datum = adat["datum"]
+        suly = adat["suly"]
+        magassag = adat["magassag"]
+        testzsir = adat["testzsir"]
+        tavolugrás = adat["tavolugrás"]
+        ingafutas = adat["ingafutas"]
+        fekvotamasz = adat["fekvotamasz"]
+        hajlekonysag = adat["hajlekonysag"]
+        szoritoeró = adat["szoritoeró"]
+        torzsemeles = adat["torzsemeles"]
+        cursor.execute(
+            """
+            INSERT INTO meresek (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
+            hajlekonysag, szoritoeró, torzsemeles)     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            """, (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
+            hajlekonysag, szoritoeró, torzsemeles,)
+        )
+        conn.commit()
+        conn.close()
+        return jsonify({"uzenet": "Tanuló sikeresen hozzáadva"}), 201
+    else:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("""
+        SELECT DISTINCT nev
+        FROM meresek
+        """)
+        nevek = [dict(sor) for sor in cursor.fetchall()]
+        conn.close()
+        nevek = jsonify(nevek)
+        return(nevek)
 
 @app.route('/api/tanulo/<nev>')
 def tanulo_api(nev):
