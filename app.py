@@ -134,7 +134,7 @@ def tanulok_api():
         nevek = jsonify(nevek)
         return(nevek)
 
-@app.route('/api/tanulo/<nev>', methods = ['GET', 'DELETE'])
+@app.route('/api/tanulo/<nev>', methods = ['GET', 'DELETE', 'PATCH'])
 def tanulo_api(nev):
 
     if request.method == 'DELETE':
@@ -148,6 +148,20 @@ def tanulo_api(nev):
         conn.commit()
         conn.close()
         return jsonify({"uzenet": "Sikeresen törölve"}), 200
+    elif  request.method == 'PATCH':
+        conn = get_db()
+        cursor = conn.cursor()
+        adat = request.get_json()
+        mezok = ", ".join([f"{k} = ?" for k in adat.keys()])
+        ertekek = list(adat.values())
+        ertekek.append(nev)
+        cursor.execute(
+        f"UPDATE meresek SET {mezok} WHERE nev = ?",
+            ertekek
+        )
+        conn.commit()
+        conn.close()
+        return jsonify("Sikeres módosítás"), 200
     else:
         conn = get_db()
         cursor = conn.cursor()
