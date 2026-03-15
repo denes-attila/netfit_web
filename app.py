@@ -134,20 +134,33 @@ def tanulok_api():
         nevek = jsonify(nevek)
         return(nevek)
 
-@app.route('/api/tanulo/<nev>')
+@app.route('/api/tanulo/<nev>', methods = ['GET', 'DELETE'])
 def tanulo_api(nev):
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-    SELECT *
-    FROM meresek
-    WHERE nev = ?
 
-    """, (nev,))
+    if request.method == 'DELETE':
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute(
+            """
+            DELETE FROM meresek WHERE nev = ?
+        """, (nev,)
+        )
+        conn.commit()
+        conn.close()
+        return jsonify({"uzenet": "Sikeresen törölve"}), 200
+    else:
+        conn = get_db()
+        cursor = conn.cursor()
+        cursor.execute("""
+        SELECT *
+        FROM meresek
+        WHERE nev = ?
 
-    tanulo_adatok = [dict(sor) for sor in cursor.fetchall()]
-    tanulo_adatok = jsonify(tanulo_adatok)
-    return(tanulo_adatok)
+        """, (nev,))
+
+        tanulo_adatok = [dict(sor) for sor in cursor.fetchall()]
+        tanulo_adatok = jsonify(tanulo_adatok)
+        return(tanulo_adatok)
 
 @app.route("/api/atlag/<meres>", methods=['POST'] )
 def meres_atlag_api(meres):
