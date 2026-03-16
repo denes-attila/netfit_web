@@ -1,5 +1,9 @@
 from flask import Flask, render_template, jsonify, request
 import sqlite3
+from dotenv import load_dotenv
+import os
+
+load_dotenv()
 
 app = Flask(__name__)
 
@@ -10,7 +14,8 @@ def index():
     return render_template("index.html", meresek = meresek)
 
 def get_db():
-    conn = sqlite3.connect("../netfit_proc/netfit.db")
+    db_path = os.getenv("DATABASE_URL")
+    conn = sqlite3.connect(db_path)
     conn.row_factory = sqlite3.Row
     return conn
 
