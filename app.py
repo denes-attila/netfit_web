@@ -134,7 +134,7 @@ def tanulok_api():
         nevek = jsonify(nevek)
         return(nevek)
 
-@app.route('/api/tanulo/<nev>', methods = ['GET', 'DELETE', 'PATCH'])
+@app.route('/api/tanulo/<nev>', methods = ['GET', 'DELETE', 'PATCH', 'PUT'])
 def tanulo_api(nev):
 
     if request.method == 'DELETE':
@@ -162,6 +162,35 @@ def tanulo_api(nev):
         conn.commit()
         conn.close()
         return jsonify("Sikeres módosítás"), 200
+    elif request.method == 'PUT':
+        conn = get_db()
+        cursor = conn.cursor()
+        adat = request.get_json()
+        nev = adat["nev"]
+        nem = adat["nem"]
+        kor = adat["kor"]
+        sportolo = adat["sportolo"]
+        datum = adat["datum"]
+        suly = adat["suly"]
+        magassag = adat["magassag"]
+        testzsir = adat["testzsir"]
+        tavolugrás = adat["tavolugrás"]
+        ingafutas = adat["ingafutas"]
+        fekvotamasz = adat["fekvotamasz"]
+        hajlekonysag = adat["hajlekonysag"]
+        szoritoeró = adat["szoritoeró"]
+        torzsemeles = adat["torzsemeles"]
+        cursor.execute(
+            """
+            UPDATE meresek SET nev = ?, nem=?, kor = ?, sportolo = ?, datum = ?, suly = ?, magassag = ?,
+            testzsir =?, tavolugrás=?, ingafutas=?, fekvotamasz =?, hajlekonysag = ?, szoritoeró= ?, torzsemeles=?
+            WHERE nev = ?
+            """, (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
+            hajlekonysag, szoritoeró, torzsemeles, nev,)
+        )
+        conn.commit()
+        conn.close()
+        return jsonify("Row succesfull updated"), 200
     else:
         conn = get_db()
         cursor = conn.cursor()
