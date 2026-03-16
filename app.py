@@ -121,6 +121,7 @@ def tanulok_api():
         )
         conn.commit()
         conn.close()
+        
         return jsonify({"uzenet": "Tanuló sikeresen hozzáadva"}), 201
     else:
         conn = get_db()
@@ -142,26 +143,46 @@ def tanulo_api(nev):
         cursor = conn.cursor()
         cursor.execute(
             """
-            DELETE FROM meresek WHERE nev = ?
+            SELECT DISTINCT nev FROM meresek WHERE nev = ?
         """, (nev,)
         )
-        conn.commit()
-        conn.close()
-        return jsonify({"uzenet": "Sikeresen törölve"}), 200
+        adat = cursor.fetchall()
+        if not adat:
+            return jsonify("Nincs ilyen gyerek"), 404
+        else:
+            cursor.execute(
+                """
+                DELETE FROM meresek WHERE nev = ?
+            """, (nev,)
+            )
+            
+            conn.commit()
+            conn.close()
+            return jsonify({"uzenet": "Sikeresen törölve"}), 200
     elif  request.method == 'PATCH':
         conn = get_db()
         cursor = conn.cursor()
-        adat = request.get_json()
-        mezok = ", ".join([f"{k} = ?" for k in adat.keys()])
-        ertekek = list(adat.values())
-        ertekek.append(nev)
-        cursor.execute(
-        f"UPDATE meresek SET {mezok} WHERE nev = ?",
-            ertekek
-        )
-        conn.commit()
-        conn.close()
-        return jsonify("Sikeres módosítás"), 200
+        cursor.execute("""
+        SELECT nev
+        FROM meresek
+        WHERE nev = ?
+
+        """, (nev,))
+        keresett_nev = cursor.fetchall()
+        if not keresett_nev:
+            return jsonify("Nincs ilyen tanuló "), 404
+        else:
+            adat = request.get_json()
+            mezok = ", ".join([f"{k} = ?" for k in adat.keys()])
+            ertekek = list(adat.values())
+            ertekek.append(nev)
+            cursor.execute(
+            f"UPDATE meresek SET {mezok} WHERE nev = ?",
+                ertekek
+            )
+            conn.commit()
+            conn.close()
+            return jsonify("Sikeres módosítás"), 200
     elif request.method == 'PUT':
         conn = get_db()
         cursor = conn.cursor()
@@ -201,9 +222,13 @@ def tanulo_api(nev):
 
         """, (nev,))
 
+
         tanulo_adatok = [dict(sor) for sor in cursor.fetchall()]
-        tanulo_adatok = jsonify(tanulo_adatok)
-        return(tanulo_adatok)
+        if not tanulo_adatok:
+            return jsonify("Nincs ilyen nevű gyerek"), 404
+        else:
+            tanulo_adatok = jsonify(tanulo_adatok)
+            return(tanulo_adatok)
 
 @app.route("/api/atlag/<meres>", methods=['POST'] )
 def meres_atlag_api(meres):
