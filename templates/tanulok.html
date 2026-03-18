@@ -9,7 +9,7 @@
     <h1>Tanulók</h1>
     <ul>
         {% for nev in nevek %}
-            <li> <a href="{{url_for('tanulo', nev = nev)}}">{{nev}}</a> </li>
+            <li> <a href="{{url_for('tanulok_html.tanulo', nev = nev)}}">{{nev}}</a> </li>
         {% endfor %}
     </ul>
     

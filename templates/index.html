@@ -7,13 +7,13 @@
 </head>
 <body>
     Üdv a főoldalról!
-    <a href="{{url_for('tanulok')}}">Tanulókhoz</a>
+    <a href="{{url_for('tanulok_html.tanulok')}}">Tanulókhoz</a>
     <p>
-        <a href="{{url_for('atlagok')}}">Fekvőtámasz átlagok</a>
+        <a href="{{url_for('tanulok_html.atlagok')}}">Fekvőtámasz átlagok</a>
     </p>
     <p>{% for meres in meresek  %}
         <li>
-            <a href="{{url_for('osszes_atlag', meres = meres)}}">{{ meres }}</a>
+            <a href="{{url_for('tanulok_html.osszes_atlag', meres = meres)}}">{{ meres }}</a>
         </li>
         {% endfor %}
     </p>
