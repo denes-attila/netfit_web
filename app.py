@@ -5,7 +5,7 @@ from tanulok_api import tanulok_api
 from tanulok_html import tanulok_html
 
 
-load_dotenv()
+#load_dotenv(override=False)
 
 app = Flask(__name__)
 app.register_blueprint(tanulok_api)
@@ -13,4 +13,4 @@ app.register_blueprint(tanulok_html)
 
 
 if __name__ == "__main__":
-    app.run(debug = True)
+    app.run(debug = True, host='0.0.0.0')
