@@ -5,9 +5,9 @@ from user import User
 auth = Blueprint('auth', __name__)
 
 @auth.route("/auth", methods = ['GET', 'POST'])
-def auth():
+def login():
     if request.method == 'GET':
-        return render_template('logint.html')
+        return render_template('login.html')
     else:
         conn = get_db()
         cursor = conn.cursor()

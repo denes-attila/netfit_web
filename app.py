@@ -3,6 +3,7 @@ import os
 from dotenv import load_dotenv
 from tanulok_api import tanulok_api
 from tanulok_html import tanulok_html
+from auth import auth
 from flask_login import LoginManager
 from user import User
 from database import get_db
@@ -34,6 +35,7 @@ def load_user(id):
 
 app.register_blueprint(tanulok_api)
 app.register_blueprint(tanulok_html)
+app.register_blueprint(auth)
 
 
 if __name__ == "__main__":
