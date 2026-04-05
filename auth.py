@@ -1,8 +1,9 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 from database import get_db
-from flask_login import login_user
+from flask_login import login_user, logout_user
 from user import User
 auth = Blueprint('auth', __name__)
+
 
 @auth.route("/auth", methods = ['GET', 'POST'])
 def login():
@@ -29,3 +30,8 @@ def login():
             return redirect(url_for('tanulok_html.index'))
         else:
             return render_template('login.html', error='Hibás felhasználónév vagy jelszó')  
+        
+@auth.route('/logout')
+def logout():
+    logout_user()
+    return redirect(url_for('auth.login')) 
