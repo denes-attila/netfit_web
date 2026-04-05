@@ -17,6 +17,7 @@ app.secret_key = os.getenv('SECRET_KEY')
 
 login_manager = LoginManager()
 login_manager.init_app(app)
+login_manager.login_view = 'auth.login'
 
 @login_manager.user_loader
 def load_user(id):
