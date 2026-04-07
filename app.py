@@ -29,6 +29,8 @@ def load_user(id):
         """, (id,)
     )
     adat = cursor.fetchone()
+    if adat is None:
+        return None
     name = adat["username"]
     passwd = adat["password"]
     user = User(id, name, passwd)

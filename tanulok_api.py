@@ -1,10 +1,12 @@
 from flask import jsonify, request
 from database import get_db
 from flask import Blueprint
+from flask_login import login_required
 
 tanulok_api = Blueprint('tanulok_api', __name__)
 
 @tanulok_api.route('/api/tanulok', methods = ['GET', 'POST'])
+@login_required
 def tanulok_list_api():
     if request.method == 'POST':
         conn = get_db()
@@ -48,6 +50,7 @@ def tanulok_list_api():
         return(nevek)
 
 @tanulok_api.route('/api/tanulo/<nev>', methods = ['GET', 'DELETE', 'PATCH', 'PUT'])
+@login_required
 def tanulo_api(nev):
 
     if request.method == 'DELETE':
@@ -152,6 +155,7 @@ def tanulo_api(nev):
             return(tanulo_adatok)
 
 @tanulok_api.route("/api/atlag/<meres>", methods=['POST'] )
+@login_required
 def meres_atlag_api(meres):
     conn = get_db()
     cursor = conn.cursor()
