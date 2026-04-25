@@ -27,7 +27,7 @@ def tanulok():
 
     nevek = [sor[0] for sor in sorok]
 
-    return render_template("tanulok.html", nevek = nevek)
+    return render_template("tanulok.html", nevek = nevek, kereses = kereses)
 
 
 @tanulok_html.route("/tanulo/<nev>")
