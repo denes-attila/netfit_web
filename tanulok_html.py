@@ -1,4 +1,4 @@
-from flask import Blueprint, render_template
+from flask import Blueprint, render_template, request
 from database import get_db
 from flask_login import login_required
 
@@ -14,12 +14,13 @@ def index():
 @tanulok_html.route("/tanulok")
 @login_required
 def tanulok():
+    kereses = request.args.get('kereses', '')
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
         SELECT DISTINCT nev
-        FROM meresek
-    """)
+        FROM meresek WHERE nev LIKE ?
+    """, (f'%{kereses}%',))
 
     sorok = cursor.fetchall()
     conn.close()

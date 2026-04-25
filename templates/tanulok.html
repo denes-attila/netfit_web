@@ -7,6 +7,10 @@
 </head>
 <body>
     <h1>Tanulók</h1>
+    <form action="/tanulok" method="get">
+        <input type="text" placeholder="keresés" name="kereses">
+        <button type="submit">Keresés</button>
+    </form>
     <ul>
         {% for nev in nevek %}
             <li> <a href="{{url_for('tanulok_html.tanulo', nev = nev)}}">{{nev}}</a> </li>
