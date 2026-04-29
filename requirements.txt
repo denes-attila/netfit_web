@@ -9,3 +9,7 @@ MarkupSafe==3.0.3
 python-dotenv==1.2.2
 Werkzeug==3.1.6
 gunicorn==21.2.0
+psycopg2-binary==2.9.10
+sqlalchemy==2.0.40
+psycopg2-binary==2.9.10
+pandas==2.2.3

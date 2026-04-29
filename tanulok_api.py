@@ -29,7 +29,7 @@ def tanulok_list_api():
         cursor.execute(
             """
             INSERT INTO meresek (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
-            hajlekonysag, szoritoeró, torzsemeles)     VALUES (?,?,?,?,?,?,?,?,?,?,?,?,?,?)
+            hajlekonysag, szoritoeró, torzsemeles)     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
             """, (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
             hajlekonysag, szoritoeró, torzsemeles,)
         )
@@ -58,7 +58,7 @@ def tanulo_api(nev):
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT DISTINCT nev FROM meresek WHERE nev = ?
+            SELECT DISTINCT nev FROM meresek WHERE nev = %s
         """, (nev,)
         )
         adat = cursor.fetchall()
@@ -67,7 +67,7 @@ def tanulo_api(nev):
         else:
             cursor.execute(
                 """
-                DELETE FROM meresek WHERE nev = ?
+                DELETE FROM meresek WHERE nev = %s
             """, (nev,)
             )
             
@@ -80,7 +80,7 @@ def tanulo_api(nev):
         cursor.execute("""
         SELECT nev
         FROM meresek
-        WHERE nev = ?
+        WHERE nev = %s
 
         """, (nev,))
         keresett_nev = cursor.fetchall()
@@ -88,11 +88,11 @@ def tanulo_api(nev):
             return jsonify("Nincs ilyen tanuló "), 404
         else:
             adat = request.get_json()
-            mezok = ", ".join([f"{k} = ?" for k in adat.keys()])
+            mezok = ", ".join([f"{k} = %s" for k in adat.keys()])
             ertekek = list(adat.values())
             ertekek.append(nev)
             cursor.execute(
-            f"UPDATE meresek SET {mezok} WHERE nev = ?",
+            f"UPDATE meresek SET {mezok} WHERE nev = %s",
                 ertekek
             )
             conn.commit()
@@ -103,7 +103,7 @@ def tanulo_api(nev):
         cursor = conn.cursor()
         cursor.execute(
             """
-            SELECT nev FROM meresek WHERE nev = ?
+            SELECT nev FROM meresek WHERE nev = %s
             """, (nev,)
         )
         keresett_nev = cursor.fetchall()
@@ -127,9 +127,9 @@ def tanulo_api(nev):
             torzsemeles = adat["torzsemeles"]
             cursor.execute(
                 """
-                UPDATE meresek SET nev = ?, nem=?, kor = ?, sportolo = ?, datum = ?, suly = ?, magassag = ?,
-                testzsir =?, tavolugrás=?, ingafutas=?, fekvotamasz =?, hajlekonysag = ?, szoritoeró= ?, torzsemeles=?
-                WHERE nev = ?
+                UPDATE meresek SET nev = %s, nem=%s, kor = %s, sportolo = %s, datum = %s, suly = %s, magassag = %s,
+                testzsir =%s, tavolugrás=%s, ingafutas=%s, fekvotamasz =%s, hajlekonysag = %s, szoritoeró= %s, torzsemeles=%s
+                WHERE nev = %s
                 """, (adat_nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
                 hajlekonysag, szoritoeró, torzsemeles, nev,)
             )
@@ -142,7 +142,7 @@ def tanulo_api(nev):
         cursor.execute("""
         SELECT *
         FROM meresek
-        WHERE nev = ?
+        WHERE nev = %s
 
         """, (nev,))
 
@@ -169,7 +169,7 @@ def meres_atlag_api(meres):
     cursor.execute(f"""
     SELECT nem, AVG({meres}) as atlag
     FROM meresek
-    WHERE nem = ?
+    WHERE nem = %s
     
     """, (nem,))
 

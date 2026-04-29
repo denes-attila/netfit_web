@@ -7,6 +7,7 @@ from auth import auth
 from flask_login import LoginManager
 from user import User
 from database import get_db
+from init_db import initialize_db
 
 
 
@@ -25,7 +26,7 @@ def load_user(id):
     cursor = conn.cursor()
     cursor.execute(
         """
-        SELECT * FROM users WHERE id = ?
+        SELECT * FROM users WHERE id = %s
         """, (id,)
     )
     adat = cursor.fetchone()

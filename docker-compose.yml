@@ -13,3 +13,22 @@ services:
       interval: 30s
       timeout: 10s
       retries: 3
+    depends_on:
+      db:
+        condition: service_healthy
+    
+  db:
+    container_name: postgres
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/data/postgres
+      - POSTGRES_DB=netfit
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "attila", "-d", "netfit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: always

@@ -1,10 +1,12 @@
-import sqlite3
+import psycopg2.extras  
+import psycopg2
 import os
 
 
 
 def get_db():
-    db_path = os.getenv("DATABASE_URL", "netfit.db")
-    conn = sqlite3.connect(db_path)
-    conn.row_factory = sqlite3.Row
+    
+    conn_string = os.getenv("DATABASE_URL")
+    conn = psycopg2.connect(conn_string, cursor_factory=psycopg2.extras.RealDictCursor)
+    
     return conn

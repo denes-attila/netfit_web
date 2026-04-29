@@ -19,13 +19,13 @@ def tanulok():
     cursor = conn.cursor()
     cursor.execute("""
         SELECT DISTINCT nev
-        FROM meresek WHERE nev LIKE ?
+        FROM meresek WHERE nev LIKE %s
     """, (f'%{kereses}%',))
 
     sorok = cursor.fetchall()
     conn.close()
 
-    nevek = [sor[0] for sor in sorok]
+    nevek = [sor["nev"] for sor in sorok]
 
     return render_template("tanulok.html", nevek = nevek, kereses = kereses)
 
@@ -38,7 +38,7 @@ def tanulo(nev):
     cursor.execute("""
         SELECT * 
         FROM meresek
-        WHERE nev = ?
+        WHERE nev = %s
         
     """, (nev,))
 
@@ -54,7 +54,7 @@ def atlagok():
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
-    SELECT nem, AVG(fekvotamasz)
+    SELECT nem, AVG(fekvotamasz) as atlag
     FROM meresek
     GROUP BY nem
     """)

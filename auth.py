@@ -18,7 +18,7 @@ def login():
         passwd = adat['password']
         cursor.execute(
             """
-            SELECT  * FROM users WHERE username = ?
+            SELECT  * FROM users WHERE username = %s
 
         """, (name,)
         )
