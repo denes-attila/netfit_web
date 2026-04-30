@@ -14,6 +14,7 @@ def index():
 @tanulok_html.route("/tanulok")
 @login_required
 def tanulok():
+    hasonlit = request.args.get('hasonlit', '')
     kereses = request.args.get('kereses', '')
     conn = get_db()
     cursor = conn.cursor()
@@ -27,7 +28,7 @@ def tanulok():
 
     nevek = [sor["nev"] for sor in sorok]
 
-    return render_template("tanulok.html", nevek = nevek, kereses = kereses)
+    return render_template("tanulok.html", nevek = nevek, kereses = kereses, hasonlit = hasonlit)
 
 
 @tanulok_html.route("/tanulo/<nev>")
@@ -48,6 +49,29 @@ def tanulo(nev):
     conn.close()
     return render_template("tanulo.html", elso = elso, masodik = masodik) 
 
+@tanulok_html.route("/osszehasonlitas")
+@login_required
+def osszehasonlitas():
+    nev1 = request.args.get('nev1', '')
+    nev2 = request.args.get('nev2', '')
+    conn = get_db()
+    cursor = conn.cursor()
+    cursor.execute("""
+        SELECT * 
+        FROM meresek
+        WHERE nev = %s AND datum = '2025-03-01'
+    """, (nev1,))
+    tanulo1 = cursor.fetchone()
+    cursor.execute("""
+        SELECT * 
+        FROM meresek
+        WHERE nev = %s AND datum = '2025-03-01'
+    """, (nev2,))
+    tanulo2 = cursor.fetchone()
+    conn.close()
+
+    return render_template('osszehasonlitas.html', tanulo1 = tanulo1, tanulo2 = tanulo2)
+
 @tanulok_html.route("/atlagok")
 @login_required
 def atlagok():
@@ -62,6 +86,7 @@ def atlagok():
     conn.close()
 
     return render_template("atlagok.html", fekvotamasz_atlagok = fekvotamasz_atlagok)
+
 
 @tanulok_html.route("/atlagok/<meres>")
 @login_required
