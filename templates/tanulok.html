@@ -18,7 +18,7 @@
                     <a href="{{url_for('tanulok_html.tanulo', nev = nev)}}">{{nev}}</a>
                     {% if hasonlit %}
                         {% if nev == hasonlit %}
-                            ✓ Kijelölve
+                        <a href="/tanulok">✓ Kijelölve (törlés)</a>
                         {% else %}
                             <a href="/osszehasonlitas?nev1={{ hasonlit }}&nev2={{ nev }}">Összehasonlítás</a>
                         {% endif %}
