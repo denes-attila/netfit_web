@@ -7,10 +7,10 @@
 </head>
 <body>
     <p>
-        <h3>Első mérés</h3>
         <li>
             <ul>
-                {% for adat in elso %}
+                {% for adat in adatok %}
+                <h3>{{ adat["datum"] }}</h3>
                     {% for kulcs, ertek in adat.items() %}
                     <li>{{kulcs}} : {{ ertek }}</li>
                     {% endfor %}
@@ -18,17 +18,6 @@
             </ul>
         </li>
     </p>
-    <p>
-        <h3>Második mérés</h3>
-        <li>
-            <ul>
-                {% for adat in masodik %}
-                    {% for kulcs, ertek in adat.items() %}
-                    <li>{{kulcs}} : {{ ertek }}</li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </li>
-    </p>
+    
 </body>
 </html>

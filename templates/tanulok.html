@@ -1,33 +1,33 @@
-    <!DOCTYPE html>
-    <html lang="en">
-    <head>
-        <meta charset="UTF-8">
-        <meta name="viewport" content="width=device-width, initial-scale=1.0">
-        <title>NETFIT-Tanulók</title>
-    </head>
-    <body>
-        <h1>Tanulók</h1>
-        <form action="/tanulok" method="get">
-            <input type="text" placeholder="keresés" name="kereses" value="{{kereses}}">
-            <button type="submit">Keresés</button>
-            <a href="/tanulok">Összes</a>
-        </form>
-        <ul>
-            {% for nev in nevek %}
-                <li>
-                    <a href="{{url_for('tanulok_html.tanulo', nev = nev)}}">{{nev}}</a>
-                    {% if hasonlit %}
-                        {% if nev == hasonlit %}
-                        <a href="/tanulok">✓ Kijelölve (törlés)</a>
-                        {% else %}
-                            <a href="/osszehasonlitas?nev1={{ hasonlit }}&nev2={{ nev }}">Összehasonlítás</a>
+        <!DOCTYPE html>
+        <html lang="en">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>NETFIT-Tanulók</title>
+        </head>
+        <body>
+            <h1>Tanulók</h1>
+            <form action="/tanulok" method="get">
+                <input type="text" placeholder="keresés" name="kereses" value="{{kereses}}">
+                <button type="submit">Keresés</button>
+                <a href="/tanulok">Összes</a>
+            </form>
+            <ul>
+                {% for nev in nevek %}
+                    <li>
+                        <a href="{{url_for('tanulok_html.tanulo', nev = nev)}}">{{nev}}</a>
+                        {% if hasonlit %}
+                            {% if nev == hasonlit %}
+                            <a href="/tanulok">✓ Kijelölve (törlés)</a>
+                            {% else %}
+                                <a href="/osszehasonlitas?nev1={{ hasonlit }}&nev2={{ nev }}">Összehasonlítás</a>
+                            {% endif %}
+                            {% else %}
+                                <a href="/tanulok?hasonlit={{ nev }}">Kijelöl</a>
                         {% endif %}
-                        {% else %}
-                            <a href="/tanulok?hasonlit={{ nev }}">Kijelöl</a>
-                    {% endif %}
-                </li>
-            {% endfor %}
-        </ul>
-        
-    </body>
-    </html>
+                    </li>
+                {% endfor %}
+            </ul>
+            
+        </body>
+        </html>

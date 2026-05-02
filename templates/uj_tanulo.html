@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Új tanuló felvitele</title>
+</head>
+<body>
+    <h2>Adja meg az új tanuló adatait:</h2>
+    <form method="post" action="{{ url_for('tanulok_html.uj_tanulo') }}">
+        <input type="text" name="nev" placeholder="Név">
+        <input type="text" name="nem" placeholder="Nem">
+        <input type="number" name="kor" placeholder="Kor">
+        <label for="sportolo">Sportoló</label>
+        <select name="sportolo" id="sportolo">
+            <option value="igen">Igen</option>
+            <option value="nem">Nem</option>
+        </select>
+        <input type="date" name="datum" placeholder="Dátum">
+        <input type="number" name="suly" placeholder="Súly">
+        <input type="number" name="magassag" placeholder="Magasság">
+        <input type="number" name="testzsir" placeholder="Testzsír">
+        <input type="number" name="tavolugrás" placeholder="Tavolugrás">
+        <input type="number" name="ingafutas" placeholder="Ingafutás">
+        <input type="number" name="fekvotamasz" placeholder="Fekvőtámasz">
+        <input type="number" name="hajlekonysag" placeholder="Hajlékonyság">
+        <input type="number" name="szoritoeró" placeholder="Szorítóerő">
+        <input type="number" name="torzsemeles" placeholder="Törzsemelés">
+        <button type="submit">Mentés</button>
+    </form>
+    
+</body>
+</html>

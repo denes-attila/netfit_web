@@ -1,0 +1,32 @@
+services:
+  web:
+    build: .
+    ports:
+      - "127.0.0.1:5000:5000"
+    env_file:
+      - .env
+    volumes:
+      - .:/app 
+    command: sh -c "python init_db.py && gunicorn --reload -w 4 -b 0.0.0.0:5000 --timeout 120 app:app"
+    depends_on:
+      db:
+        condition: service_healthy
+  
+  db:
+    container_name: postgres_dev
+    image: postgres
+    environment:
+      - POSTGRES_USER=${POSTGRES_USER}
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD}
+      - PGDATA=/data/postgres
+      - POSTGRES_DB=netfit
+    healthcheck:
+      test: ["CMD", "pg_isready", "-U", "attila", "-d", "netfit"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    volumes:
+      - postgres_dev_data:/data/postgres
+volumes:
+  postgres_dev_data:
