@@ -5,6 +5,7 @@ from flask_login import login_required
 tanulok_html = Blueprint('tanulok_html', __name__)
 
 @tanulok_html.route("/")
+@login_required
 def index():
     meresek = ["suly", "magassag", "testzsir", "tavolugrás", "ingafutas",
            "fekvotamasz", "hajlekonysag", "szoritoeró", "torzsemeles"]
