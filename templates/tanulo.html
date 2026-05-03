@@ -1,28 +1,8 @@
-{% extends "base.html" %}
-{% block content %}
-
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanuló adatai</title>
-</head>
-<body>
-    <p>
-        <li>
-            <ul>
-                {% for adat in adatok %}
-                <h3>{{ adat["datum"] }}</h3>
-                    {% for kulcs, ertek in adat.items() %}
-                    <li>{{kulcs}} : {{ ertek }}</li>
-                    {% endfor %}
-                {% endfor %}
-            </ul>
-        </li>
-    </p>
-    
-</body>
-</html>
-
-{% endblock %}
+{% extends "base.html" %} {% block content %} {% for adat in adatok %}
+<h3>{{ adat["datum"] }}</h3>
+<ul>
+  {% for kulcs, ertek in adat.items() %} {% if kulcs not in ['id', 'datum'] %}
+  <li>{{ kulcs }}: {{ ertek }}</li>
+  {% endif %} {% endfor %}
+</ul>
+{% endfor %} {% endblock %}
