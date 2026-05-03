@@ -56,16 +56,18 @@ def osszehasonlitas():
     conn = get_db()
     cursor = conn.cursor()
     cursor.execute("""
-        SELECT * 
-        FROM meresek
-        WHERE nev = %s AND datum = '2025-03-01'
-    """, (nev1,))
+        SELECT * FROM meresek
+        WHERE nev = %s
+        ORDER BY datum ASC
+        LIMIT 1
+        """, (nev1,))
     tanulo1 = cursor.fetchone()
     cursor.execute("""
-        SELECT * 
-        FROM meresek
-        WHERE nev = %s AND datum = '2025-03-01'
-    """, (nev2,))
+        SELECT * FROM meresek
+        WHERE nev = %s
+        ORDER BY datum ASC
+        LIMIT 1
+        """, (nev2,))
     tanulo2 = cursor.fetchone()
     conn.close()
 
