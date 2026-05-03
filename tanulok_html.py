@@ -70,21 +70,6 @@ def osszehasonlitas():
 
     return render_template('osszehasonlitas.html', tanulo1 = tanulo1, tanulo2 = tanulo2)
 
-@tanulok_html.route("/atlagok")
-@login_required
-def atlagok():
-    conn = get_db()
-    cursor = conn.cursor()
-    cursor.execute("""
-    SELECT nem, AVG(fekvotamasz) as atlag
-    FROM meresek
-    GROUP BY nem
-    """)
-    fekvotamasz_atlagok  = [dict(sor) for sor in cursor.fetchall()]
-    conn.close()
-
-    return render_template("atlagok.html", fekvotamasz_atlagok = fekvotamasz_atlagok)
-
 
 @tanulok_html.route("/atlagok/<meres>")
 @login_required

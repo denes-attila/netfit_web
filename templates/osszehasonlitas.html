@@ -1,27 +1,19 @@
-<!DOCTYPE html>
-<html lang="en">
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Tanulók összehasonlítása</title>
-</head>
-<body>
-    <div>
-        <h2>{{ tanulo1.nev }}</h2>
-        <ul>
-            {% for kulcs, ertek in tanulo1.items() %}
-            <li>{{kulcs}} : {{ ertek }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    <div>
-        <h2>{{ tanulo2.nev }}</h2>
-        <ul>
-            {% for kulcs, ertek in tanulo2.items() %}
-            <li>{{kulcs}} : {{ ertek }}</li>
-            {% endfor %}
-        </ul>
-    </div>
-    
-</body>
-</html>
+{% extends "base.html" %} {% block content %}
+<div>
+  <h2>{{ tanulo1.nev }}</h2>
+  <ul>
+    {% for kulcs, ertek in tanulo1.items() %}
+    <li>{{kulcs}} : {{ ertek }}</li>
+    {% endfor %}
+  </ul>
+</div>
+<div>
+  <h2>{{ tanulo2.nev }}</h2>
+  <ul>
+    {% for kulcs, ertek in tanulo2.items() %}
+    <li>{{kulcs}} : {{ ertek }}</li>
+    {% endfor %}
+  </ul>
+</div>
+
+{% endblock %}
