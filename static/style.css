@@ -17,10 +17,47 @@ nav a {
   margin: 5px 10px;
   border-radius: 5px;
   
-
 }
 
 nav a:hover{
   color: rgb(222, 218, 226);
   background-color: rgb(74, 64, 137);
+}
+
+form {
+  display: flex;
+  flex-direction: column;
+  width: 300px;
+  margin: 100px auto;
+  box-shadow: 2px 4px 10px rgba(0,0,0,0.2);
+  padding: 3px;
+  background-color: rgb(236, 240, 240);
+}
+
+input {
+  border: black solid;
+  padding: auto;
+  border-radius: 7px;
+  align-items: center;
+  align-content: center;
+  text-align: center;
+}
+
+label {
+  text-align: center;
+  padding: 8px;
+  margin: auto;
+
+}
+
+button{
+  margin-top: 10px;
+  border-radius: 7px;
+  font-weight: 500;
+
+}
+
+button:hover{
+  background-color: cadetblue;
+  font-weight: 700;
 }
