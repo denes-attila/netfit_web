@@ -5,13 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate">
     <title>{% block title %} NETFIT {% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
 </head>
 <body>
     <nav>
         <a href="{{url_for('tanulok_html.index')}}">Főoldal</a>
         <a href="{{url_for('tanulok_html.tanulok')}}">Tanulókhoz</a>
         <a href="/uj_tanulo">Új tanuló hozzáadása</a>
+        {% if current_user.is_authenticated %}
         <a href="/logout">Kijelentkezés</a>
+        {% endif %}
+    
     </nav>
 
     {% block content %}
