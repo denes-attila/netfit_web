@@ -11,7 +11,8 @@ from init_db import initialize_db
 
 
 
-load_dotenv(override=False)
+env_file = os.getenv('ENV_FILE', '.env')
+load_dotenv(env_file, override=True)
 
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')

@@ -1,7 +1,15 @@
 from database import get_db
 import pandas as pd
 from sqlalchemy import create_engine
+from dotenv import load_dotenv
 import os
+
+env_file = os.getenv('ENV_FILE', '.env')
+load_dotenv(env_file, override=True)
+
+import os
+
+
 
 def load_csv(conn_string):
         engine = create_engine(conn_string)
