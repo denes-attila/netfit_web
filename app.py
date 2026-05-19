@@ -17,6 +17,13 @@ load_dotenv(env_file, override=True)
 app = Flask(__name__)
 app.secret_key = os.getenv('SECRET_KEY')
 
+@app.errorhandler(404)
+def errorhandler(error):
+    return render_template("404.html", error=error)
+@app.errorhandler(500)
+def error500(error):
+    return render_template("500.html", error=error)
+
 login_manager = LoginManager()
 login_manager.init_app(app)
 login_manager.login_view = 'auth.login'
