@@ -1,6 +1,6 @@
 from flask import Blueprint, request, render_template, redirect, url_for
 from database import get_db
-from flask_login import login_user, logout_user
+from flask_login import login_user, logout_user, login_required
 from werkzeug.security import check_password_hash
 from user import User
 auth = Blueprint('auth', __name__)
@@ -28,6 +28,9 @@ def login():
         if check_password_hash( db_data["password"], passwd):
             user = User(db_data['id'], db_data['username'], db_data['password'])
             login_user(user)
+            next_page = request.form.get('next')
+            if next_page:
+                return redirect(next_page)
             return redirect(url_for('tanulok_html.index'))
         else:
             return render_template('login.html', error='Hibás felhasználónév vagy jelszó')  

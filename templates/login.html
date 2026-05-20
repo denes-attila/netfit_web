@@ -5,6 +5,7 @@
   <input type="text" name="username" />
   <label for="password">Password</label>
   <input type="password" name="password" />
+  <input type="hidden" name="next" value="{{ request.args.get('next', '') }}">
   {% if error %}
   <p style="color: red">{{ error }}</p>
   {% endif %}
