@@ -61,3 +61,21 @@ button:hover{
   background-color: cadetblue;
   font-weight: 700;
 }
+
+.flash {
+    padding: 10px 20px;
+    margin: 10px;
+    border-radius: 5px;
+}
+
+.flash.success {
+    background-color: rgba(0, 200, 0, 0.2);
+    border: 1px solid green;
+    color: green;
+}
+
+.flash.error {
+    background-color: rgba(200, 0, 0, 0.2);
+    border: 1px solid red;
+    color: red;
+}

@@ -1,6 +1,8 @@
 from flask import Blueprint, render_template, request, redirect, url_for
 from database import get_db
 from flask_login import login_required
+from flask import Blueprint, render_template, request, redirect, url_for, flash
+
 
 tanulok_html = Blueprint('tanulok_html', __name__)
 
@@ -134,4 +136,5 @@ def uj_tanulo():
         )
         conn.commit()
         conn.close()
+        flash("Tanuló sikeresen hozzáadva!", "success")
         return redirect(url_for('tanulok_html.tanulok'))
