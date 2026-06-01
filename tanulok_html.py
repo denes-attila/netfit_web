@@ -1,4 +1,3 @@
-from flask import Blueprint, render_template, request, redirect, url_for
 from database import get_db
 from flask_login import login_required
 from flask import Blueprint, render_template, request, redirect, url_for, flash
@@ -110,31 +109,36 @@ def uj_tanulo():
     if request.method == 'GET':
         return render_template('uj_tanulo.html')
     elif request.method == 'POST':
-        conn = get_db()
-        cursor = conn.cursor()
-        adat = request.form
-        nev = adat["nev"]
-        nem = adat["nem"]
-        kor = adat["kor"]
-        sportolo = adat["sportolo"]
-        datum = adat["datum"]
-        suly = adat["suly"]
-        magassag = adat["magassag"]
-        testzsir = adat["testzsir"]
-        tavolugrás = adat["tavolugrás"]
-        ingafutas = adat["ingafutas"]
-        fekvotamasz = adat["fekvotamasz"]
-        hajlekonysag = adat["hajlekonysag"]
-        szoritoeró = adat["szoritoeró"]
-        torzsemeles = adat["torzsemeles"]
-        cursor.execute(
-            """
-            INSERT INTO meresek (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
-            hajlekonysag, szoritoeró, torzsemeles)     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
-            """, (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
-            hajlekonysag, szoritoeró, torzsemeles,)
-        )
-        conn.commit()
-        conn.close()
-        flash("Tanuló sikeresen hozzáadva!", "success")
+        try:
+            conn = get_db()
+            cursor = conn.cursor()
+            adat = request.form
+            nev = adat["nev"]
+            nem = adat["nem"]
+            kor = adat["kor"]
+            sportolo = adat["sportolo"]
+            datum = adat["datum"]
+            suly = adat["suly"]
+            magassag = adat["magassag"]
+            testzsir = adat["testzsir"]
+            tavolugrás = adat["tavolugrás"]
+            ingafutas = adat["ingafutas"]
+            fekvotamasz = adat["fekvotamasz"]
+            hajlekonysag = adat["hajlekonysag"]
+            szoritoeró = adat["szoritoeró"]
+            torzsemeles = adat["torzsemeles"]
+            cursor.execute(
+                """
+                INSERT INTO meresek (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
+                hajlekonysag, szoritoeró, torzsemeles)     VALUES (%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s,%s)
+                """, (nev, nem, kor, sportolo, datum, suly, magassag, testzsir, tavolugrás, ingafutas, fekvotamasz,
+                hajlekonysag, szoritoeró, torzsemeles,)
+            )
+            conn.commit()
+            flash("Tanuló sikeresen hozzáadva!", "success")
+        except Exception as e:
+            conn.rollback()
+            flash("Hiba történt a mentés során!", "error")
+        finally:
+            conn.close()
         return redirect(url_for('tanulok_html.tanulok'))
